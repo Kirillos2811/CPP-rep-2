@@ -4,12 +4,19 @@
 int main()
 {
     char str[100];
+    char reverse_str[100];
+    printf("Enter a string:");
     gets_s(str);
-    int length = strlen(str);
-    char buff = str[0];
-    str[0] = str[length - 1];
-    str[length - 1] = buff;
-    printf("Output string:");
-    puts(str);
+
+    int str_len = strlen(str);
+    int j = 0;
+    for (int i = str_len - 1; i >= 0; i--) {
+        reverse_str[j] = str[i];
+        j++;
+    }
+    reverse_str[str_len] = '\0';
+   
+    printf("Reverse string:");
+    puts(reverse_str);
 }
 
