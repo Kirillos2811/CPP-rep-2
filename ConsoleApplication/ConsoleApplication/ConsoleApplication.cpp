@@ -1,22 +1,42 @@
 ﻿#include <stdio.h>
 #include <string>
 
-int main()
-{
+
+
+void delete_spaces() {
     char str[100];
-    char reverse_str[100];
+
     printf("Enter a string:");
     gets_s(str);
 
-    int str_len = strlen(str);
-    int j = 0;
-    for (int i = str_len - 1; i >= 0; i--) {
-        reverse_str[j] = str[i];
-        j++;
+    int len;
+    while(true) {
+        if (str[0] == ' ') {
+            len = strlen(str);
+            for (int i = 0; i < len; i++) {
+                str[i] = str[i + 1];
+            }
+        }
+        else {
+            break;
+        }
     }
-    reverse_str[str_len] = '\0';
-   
-    printf("Reverse string:");
-    puts(reverse_str);
+    len = strlen(str);
+    for (int i = len - 1; i >= 0; i--) {
+        if (str[i] == ' ') {
+            str[i] = '\0';
+        }
+        else {
+            break;
+        }
+    }
+
+    printf("Output string:");
+    puts(str);
+}
+
+int main()
+{
+    delete_spaces();
 }
 
