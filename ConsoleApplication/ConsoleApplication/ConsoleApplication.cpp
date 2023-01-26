@@ -1,44 +1,48 @@
 ﻿#include <stdio.h>
-#include <stdexcept>
 #include <string>
 using namespace std;
 
-class FileWasNotOpenedException : public runtime_error
+class Car 
 {
+protected:
+	string company, model;
 public:
-	FileWasNotOpenedException() : runtime_error("File could not be opened") {}
+	Car() = default;
+	Car(string company, string model) 
+	{
+		this->company = company;
+		this->model = model;
+
+		printf("Company: %s\n", this->company.c_str());
+		printf("Model: %s\n\n", this->model.c_str());
+	}
 };
 
-void readFile(string name, char* buff)
-{	
-	FILE* file_ptr;
-	errno_t err;
+class PassengerCar : virtual public Car 
+{
+public:
+	PassengerCar() = default;
+	PassengerCar(string company, string model) : Car(company, model) {}
+};
 
-	err = fopen_s(&file_ptr, name.c_str(), "r");
-	int buff_len = sizeof(buff) / sizeof(buff[0]);
-	
-	if (file_ptr != NULL) {
-		fgets(buff, buff_len, file_ptr);
-		fclose(file_ptr);
-	}
-	else {
-		throw FileWasNotOpenedException();
-	}
-}
+class Bus : virtual public Car
+{
+public:
+	Bus() = default;
+	Bus(string company, string model) : Car(company, model) {}
+};
 
+class Minivan : public PassengerCar, public Bus
+{
+public:
+	Minivan(string company, string model) : Car(company, model) {}
+};
 int main()
 {
-	try
-	{	
-		char buff[1000];
-		readFile("nothing.txt", buff);
-		printf("File content:");
-		puts(buff);
-	}
-	catch (const FileWasNotOpenedException& ex)
-	{
-		printf(ex.what());
-	}
+	Car car = Car("BMW", "BMW M4 Coupe");
+	PassengerCar passenger_car = PassengerCar("Suzuki", "Suzuki Ignis");
+	Bus bus = Bus("MAN", "MAN model");
+	Minivan minivan = Minivan("Toyota", "Toyota Alphard");
 	return 0;
 }
 
